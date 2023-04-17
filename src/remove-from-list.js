@@ -23,36 +23,19 @@ const { NotImplementedError } = require('../extensions/index.js');
  * }
  */
 function removeKFromList(l, k) {
-
-  let deletedNode = null;
-  // Если head должен быть удален, то делаем следующий узел новым head.
-  while (l && l.value === k) {
-    deletedNode = l.value;
-    l = l.next;
+  if (!l) {
+    return null;
   }
-   let currentNode = l;
-    while (currentNode.next) {
-      if (currentNode.next.value === k) {
-        deletedNode = currentNode.next;
-        currentNode.next = currentNode.next.next;
-      } else {
-        currentNode = currentNode.next;
-      }
-    }
+
+  if (l.value === k) {
+    return l.next ? removeKFromList(l.next, k) : null;
+  } else {
+    l.next = removeKFromList(l.next, k);
+  }
+
   return l;
 }
 
-function convertArrayToList(arr) {
-  return arr.reverse().reduce((acc, cur) => {
-    if (acc) {
-      const node = new ListNode(cur);
-      node.next = acc;
-      return node;
-    }
-
-    return new ListNode(cur);
-  }, null);
-}
 
 module.exports = {
   removeKFromList
